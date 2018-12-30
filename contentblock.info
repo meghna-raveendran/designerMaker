@@ -1,0 +1,4 @@
+name = Alter site content block
+description = Allows to Override drupal content block
+core = 7.x
+

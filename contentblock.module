@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * ContentBlock  module file.
+ *
+ * Most of the CTools tools are in their own .inc files. This contains
+ * nothing more than a few convenience functions and some hooks that
+ * must be implemented in the module file.
+ */
+include_once drupal_get_path('module','webform') . '/includes/webform.submissions.inc';
+
+function contentblock_page_alter(&$page){
+  //global $user;
+  //print_r(webform_get_submissions(array('nid'=> 2, 'uid' => $user->uid)));
+	if( drupal_is_front_page()){
+
+    //Hide Default Content block no data text
+    drupal_add_js('jQuery(document).ready(function () { jQuery("#first-time").hide(); });', 'inline');
+
+    // Fetch All Designer Makers
+    $result = db_query('SELECT s.sid, s.nid, d1.`data` as designer_name, f.uri as profile_pic, d2.`data` as `type`  FROM `webform_submissions` s 
+      left join webform_submitted_data d1 on d1.sid= s.sid and d1.cid = 1 
+      left join webform_submitted_data d2 on d2.sid= s.sid and d2.cid = 2 
+      left join webform_submitted_data d3 on d3.sid= s.sid and d3.cid = 4
+      left join file_managed f on f.fid = d3.`data` 
+      where s.nid=1');  
+    $records = $result->fetchAll(); 
+    // Build Designer Maker block view
+    $designers = setDesignerBlock($records);
+    // Feed Block to drupal Content region
+    drupal_add_region_content('content', $designers);
+  }	
+}
+
+
+/**
+* Build Designer Maker block Html Output
+*/
+function setDesignerBlock($records){
+  $designers = '<div class="row">';
+  $block_count = 0;
+  foreach($records as $record){ 
+    $designers .= ($block_count == 0)?'<div class="col-md-12">':'';
+    $designers .= '<div class="col-md-3"><div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="'.file_stream_wrapper_get_instance_by_uri($record->profile_pic)->getExternalUrl().'" width="180" height="180" alt="Card image cap">
+    <div class="card-body">
+    <h5 class="card-title">'.$record->designer_name.'</h5>
+    <p class="card-text"></p>
+    <a href="node/'.$record->nid.'/submission/'.$record->sid.'" class="btn btn-primary">View Profile</a>
+  </div>
+  </div></div>';
+  $designers .= ($block_count == 3)?'</div>':'';
+  $block_count++;
+  if($block_count == 4) $block_count = 0;
+  }
+  $designers .= '</div>';
+  return $designers;
+}
