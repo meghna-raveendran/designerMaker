@@ -1,0 +1,3 @@
+name = Alter Webform Submissionuser
+description = Allows to save Drupal user created (if so) as the submitted user of webform 
+core = 7.x
