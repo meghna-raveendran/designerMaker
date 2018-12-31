@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * This module provides a simple way to save Drupal user created (if so) as the submitted user of webform
+ *
+ * @author Meghna R <meghnaravinderan@gmail.com>
+ */
+
+
+/**
+ * Implements webform_submission_insert().
+ */
+function alter_webformsubmissionuser_webform_submission_insert($node, $submission){ 
+
+	 /*foreach ($submission->data as $field=>$value) {
+	 	# Fetch the email
+	 	if($field == 12){
+	 		$user = reset(user_load_multiple(array(), array(
+    		'mail' => $value,
+  			)));
+	 	}
+	 }*/
+    global $user;
+	if($user){
+		$uid = $user->uid;  
+		$sid = $submission->sid;
+		db_query("UPDATE {webform_submissions} SET uid = :uid WHERE sid =:sid", array(':uid' => $uid, ':sid' => $sid));
+		
+	} 
+}
+
+
