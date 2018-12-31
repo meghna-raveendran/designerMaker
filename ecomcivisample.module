@@ -1,0 +1,24 @@
+
+/*
+*Insert Product data on submitting webform Products
+*/
+
+$product_id = insert into civicrm_product ('name', 'description', 'sku', 'image', 'price') values()
+
+/*
+*Insert Contact & Membership for Drupal User Purchasing the Product
+*/
+
+insert into  civicrm_membership ('contact_id', 'membership_type_id', 'join_date', 'start_date', 'status_id') values()
+
+/*
+*Insert Contribution as Product Purchased amount to contact c reated for user Purchasing the Product
+*/
+
+$contrib_id =insert into  civicrm_contribution ('contact_id', 'financial_type_id', 'payment_instrument_id', 'receive_date', 'total_amount') values()
+
+/*
+*Insert record for Product to which Contribution added
+*/
+
+insert into  civicrm_contribution_product ('product_id', 'contribution_id') values($product_id, $contrib_id)
