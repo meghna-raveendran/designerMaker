@@ -16,7 +16,9 @@
 ?>
 
 <?php 
-
+/*
+* Override Submission page template to customized view for DesignerMaker Profile
+*/
 if($submission->nid == 1 && (strpos(current_path(), "edit") == false)){
 	$designer_name = $submission->data[1][0];
 	$profile_pic = file_create_url(file_load($submission->data[4][0])->uri);
@@ -278,7 +280,11 @@ if($submission->nid == 1 && (strpos(current_path(), "edit") == false)){
 
 <?php }else{ ?>
 
-	<?php if ($mode == 'display' || $mode == 'form'): ?>
+	<?php 
+	/*
+	* Default View of other nodes and action :webform submission page
+	*/    
+	    if ($mode == 'display' || $mode == 'form'): ?>
 	  <div class="clearfix">
 	    <?php print $submission_actions; ?>
 	    <?php print $submission_navigation; ?>
