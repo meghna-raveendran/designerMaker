@@ -10,11 +10,14 @@
  */
 include_once drupal_get_path('module','webform') . '/includes/webform.submissions.inc';
 
-/*
-* Override page_alter hook to customize front page 
+/**
+*Overrides hook_page_alter
 */
+
 function contentblock_page_alter(&$page){
-     if( drupal_is_front_page()){
+
+  //Checking for front page
+ if( drupal_is_front_page()){
 
     //Hide Default Content block no data text
     drupal_add_js('jQuery(document).ready(function () { jQuery("#first-time").hide(); });', 'inline');
