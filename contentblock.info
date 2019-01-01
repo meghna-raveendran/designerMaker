@@ -1,4 +1,3 @@
-name = Alter site content block
-description = Allows to Override drupal content block
+name = Content Block
+description = A helpful tools to override home and node view content block.
 core = 7.x
-
